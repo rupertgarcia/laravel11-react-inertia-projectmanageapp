@@ -42,7 +42,7 @@ export default function Create({ auth, project }) {
               onSubmit={onSubmit}
               className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
             >
-              {image_path && (
+              {project.image_path && (
                 <div className="mb-4">
                   <img src={project.image_path} className="w-64" />
                 </div>

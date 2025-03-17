@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProjectController extends Controller
@@ -29,9 +30,11 @@ class ProjectController extends Controller
             $query->where("status", request("status"));
         }
 
-        $projects = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
+        $projects = $query->orderBy($sortField, $sortDirection)
+            ->paginate(10)
+            ->onEachSide(1);
 
-        return inertia('Project/Index', [
+        return inertia("Project/Index", [
             "projects" => ProjectResource::collection($projects),
             'queryParams' => request()->query() ?: null,
             'success' => session('success'),
@@ -82,11 +85,14 @@ class ProjectController extends Controller
             $query->where("status", request("status"));
         }
 
-        $tasks = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
+        $tasks = $query->orderBy($sortField, $sortDirection)
+            ->paginate(10)
+            ->onEachSide(1);
         return inertia('Project/Show', [
             'project' => new ProjectResource($project),
             "tasks" => TaskResource::collection($tasks),
             'queryParams' => request()->query() ?: null,
+            'success' => session('success'),
         ]);
     }
 
@@ -106,7 +112,6 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $data = $request->validated();
-        dd($data);
         $image = $data['image'] ?? null;
         $data['updated_by'] = Auth::id();
         if ($image) {
