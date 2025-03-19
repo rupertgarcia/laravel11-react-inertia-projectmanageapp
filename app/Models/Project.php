@@ -18,11 +18,11 @@ class Project extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(Task::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function updatedBy()
     {
-        return $this->belongsTo(Task::class, 'updated_by');
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

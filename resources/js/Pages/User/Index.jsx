@@ -83,7 +83,6 @@ export default function Index({ auth, users, queryParams = null, success }) {
                       >
                         ID
                       </TableHeading>
-
                       <TableHeading
                         name="name"
                         sort_field={queryParams.sort_field}
@@ -157,7 +156,6 @@ export default function Index({ auth, users, queryParams = null, success }) {
                         <td className="px-3 py-2 text-nowrap">
                           {user.created_at}
                         </td>
-
                         <td className="px-3 py-2 text-nowrap">
                           <Link
                             href={route("user.edit", user.id)}

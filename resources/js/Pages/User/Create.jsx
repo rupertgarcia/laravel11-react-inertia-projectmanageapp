@@ -1,7 +1,5 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import SelectInput from "@/Components/SelectInput";
-import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
@@ -69,8 +67,9 @@ export default function Create({ auth }) {
 
                 <InputError message={errors.email} className="mt-2" />
               </div>
+
               <div className="mt-4">
-                <InputLabel htmlFor="user_password" value="User Password" />
+                <InputLabel htmlFor="user_password" value="Password" />
 
                 <TextInput
                   id="user_password"
@@ -83,6 +82,7 @@ export default function Create({ auth }) {
 
                 <InputError message={errors.password} className="mt-2" />
               </div>
+
               <div className="mt-4">
                 <InputLabel
                   htmlFor="user_password_confirmation"
@@ -105,6 +105,7 @@ export default function Create({ auth }) {
                   className="mt-2"
                 />
               </div>
+
               <div className="mt-4 text-right">
                 <Link
                   href={route("user.index")}

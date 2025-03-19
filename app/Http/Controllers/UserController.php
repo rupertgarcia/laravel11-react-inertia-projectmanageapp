@@ -51,8 +51,8 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $data = $request->validated();
+        $data['email_verified_at'] = time();
         $data['password'] = bcrypt($data['password']);
-
         User::create($data);
 
         return to_route('user.index')
@@ -64,27 +64,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $query = $user->tasks();
-
-        $sortField = request("sort_field", 'created_at');
-        $sortDirection = request("sort_direction", "desc");
-
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
-        if (request("status")) {
-            $query->where("status", request("status"));
-        }
-
-        $tasks = $query->orderBy($sortField, $sortDirection)
-            ->paginate(10)
-            ->onEachSide(1);
-        return inertia('User/Show', [
-            'user' => new UserResource($user),
-            "tasks" => TaskResource::collection($tasks),
-            'queryParams' => request()->query() ?: null,
-            'success' => session('success'),
-        ]);
+        //
     }
 
     /**
@@ -103,13 +83,11 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
-        $image = $data['image'] ?? null;
-        $data['updated_by'] = Auth::id();
-        if ($image) {
-            if ($user->image_path) {
-                Storage::disk('public')->deleteDirectory(dirname($user->image_path));
-            }
-            $data['image_path'] = $image->store('user/' . Str::random(), 'public');
+        $password = $data['password'] ?? null;
+        if ($password) {
+            $data['password'] = bcrypt($password);
+        } else {
+            unset($data['password']);
         }
         $user->update($data);
 
@@ -124,9 +102,6 @@ class UserController extends Controller
     {
         $name = $user->name;
         $user->delete();
-        if ($user->image_path) {
-            Storage::disk('public')->deleteDirectory(dirname($user->image_path));
-        }
         return to_route('user.index')
             ->with('success', "User \"$name\" was deleted");
     }
