@@ -84,6 +84,13 @@ export default function Show({ auth, success, project, tasks, queryParams }) {
                 <label className="font-bold text-lg">Project Description</label>
                 <p className="mt-1">{project.description}</p>
               </div>
+
+              <div className="mt-4">
+                <label className="font-bold text-lg">Project Duration</label>
+                <p className="mt-1">
+                  {project.duration ? project.duration : "N/A"}
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -114,6 +114,11 @@ export default function Show({ auth, task }) {
                 <label className="font-bold text-lg">Task Description</label>
                 <p className="mt-1">{task.description}</p>
               </div>
+
+              <div className="mt-4">
+                <label className="font-bold text-lg">Task Duration</label>
+                <p className="mt-1">{task.duration ? task.duration : "N/A"}</p>
+              </div>
             </div>
           </div>
         </div>
